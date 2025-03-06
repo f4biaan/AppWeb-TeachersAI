@@ -1,0 +1,33 @@
+<div class="h-screen w-screen flex flex-row">
+  <div
+    [ngClass]="{ 'w-1/5': !isSidebarCollapsed, 'w-16': isSidebarCollapsed }"
+    class="h-screen fixed transition-all duration-300"
+  >
+    @if (!isSidebarCollapsed) {
+    <button
+      (click)="toggleSidebar()"
+      class="p-2 absolute top-4 right-4 z-10 btn-side-menu"
+    >
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    } @else {
+    <button
+      (click)="toggleSidebar()"
+      class="p-2 absolute top-4 left-1/2 transform -translate-x-1/2 z-10 btn-side-menu"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    }
+    <app-sidebar [collapsed]="isSidebarCollapsed" />
+  </div>
+
+  <div
+    [ngClass]="{ 'ml-[20%]': !isSidebarCollapsed, 'ml-16': isSidebarCollapsed }"
+    class="h-screen w-full transition-all duration-300 overflow-x-hidden"
+    id="content-place"
+  >
+    <router-outlet />
+
+    <app-footer />
+  </div>
+</div>

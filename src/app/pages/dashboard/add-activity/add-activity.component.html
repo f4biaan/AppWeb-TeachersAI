@@ -1,0 +1,215 @@
+<div class="m-8">
+  <div class="title-case-new-course pb-8">
+    @if (isNewActivity) {
+    <h2 class="text-center text-[--dark-blue] font-extrabold text-4xl">
+      Nueva actividad
+    </h2>
+    } @else {
+    <h2 class="text-center text-[--dark-blue] font-extrabold text-4xl">
+      Editar actividad
+    </h2>
+    }
+  </div>
+
+  <mat-horizontal-stepper
+    linear
+    #stepper
+    [(selectedIndex)]="selectedIndex"
+    (selectionChange)="onStepChange($event)"
+  >
+    <!-- Primer Paso: Formulario General -->
+    <mat-step [stepControl]="generalForm" class="m-8">
+      <form [formGroup]="generalForm">
+        <ng-template matStepLabel>Datos Generales</ng-template>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Nombre de Actividad -->
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Nombre de Actividad de Aprendizaje</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              placeholder="Ingrese el nombre"
+            />
+            @if (generalForm.get('name')?.invalid) {
+
+            <mat-error>Requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Tipo de Actividad -->
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Tipo de Actividad</mat-label>
+            <input matInput formControlName="typeActivity" [disabled]="true" />
+            @if (generalForm.get('typeActivity')?.invalid) {
+            <mat-error>Requerido</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Asignatura-Curso -->
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Asignatura - Curso</mat-label>
+          <input
+            matInput
+            formControlName="courseId"
+            placeholder="Ingrese la asignatura y curso correspondiente"
+            [matAutocomplete]="auto"
+          />
+          <!-- [value]="getCourseName(generalForm.get('courseId')?.value)" -->
+          <mat-autocomplete
+            autoActiveFirstOption
+            #auto="matAutocomplete"
+            (optionSelected)="onOptionSelected($event)"
+            [displayWith]="displayCourseName"
+          >
+            @for (option of coursesData; track option) {
+            <mat-option [value]="option">{{
+              option.subject + " " + option.subjectCode
+            }}</mat-option>
+            }
+          </mat-autocomplete>
+          @if (generalForm.get('courseId')?.invalid) {
+          <mat-error>Requerido</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Componente de Aprendizaje -->
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Componente de Aprendizaje</mat-label>
+            <mat-select formControlName="learningComponent">
+              <mat-option value="ACD">
+                En contacto con el docente (ACD)
+              </mat-option>
+              <mat-option value="APE">Práctico-experimental (APE)</mat-option>
+              <mat-option value="AA">Autónomo (AA)</mat-option>
+            </mat-select>
+            @if (generalForm.get('learningComponent')?.invalid) {
+            <mat-error>Requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Nivel Académico -->
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Nivel Académico</mat-label>
+            <input
+              matInput
+              formControlName="academicLevel"
+              placeholder="Ingrese el ciclo académico"
+              [disabled]="true"
+            />
+            <!-- [value]="academicLevel" -->
+            @if (generalForm.get('academicLevel')?.invalid) {
+            <mat-error>Requerido</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-wrap justify-end">
+          <button
+            mat-raised-button
+            color="primary"
+            matStepperNext
+            [disabled]="generalForm.invalid"
+          >
+            Siguiente
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Segundo Paso: Formulario Específico -->
+    <mat-step [stepControl]="specificForm" class="m-8">
+      <form [formGroup]="specificForm">
+        <ng-template matStepLabel>Datos Específicos</ng-template>
+
+        <div class="space-y-4">
+          <!-- Tema de la unidad -->
+          <div class="w-full">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Tema de la Unidad</mat-label>
+              <input
+                matInput
+                formControlName="unitTheme"
+                placeholder="Ingrese el tema de la unidad"
+              />
+              @if (specificForm.get('unitTheme')?.invalid) {
+              <mat-error>Requerido</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="w-full input-box-enriched-text">
+              <label>Resultados de Aprendizaje</label>
+              <ckeditor
+                formControlName="expectedLearningOutcomes"
+                [editor]="Editor"
+                [config]="editorConfig"
+                data="<p>Describa los resultados esperados</p>"
+              ></ckeditor>
+              @if (specificForm.get('expectedLearningOutcomes')?.invalid) {
+              <mat-error>Requerido</mat-error>
+              }
+            </div>
+
+            <div class="w-full input-box-enriched-text">
+              <label>Estrategias Didácticas</label>
+              <ckeditor
+                formControlName="didacticStrategies"
+                [editor]="Editor"
+                [config]="editorConfig"
+                data="<p>Describa las estrategias</p>"
+              ></ckeditor>
+              @if (specificForm.get('didacticStrategies')?.invalid) {
+              <mat-error>Requerido</mat-error>
+              }
+            </div>
+          </div>
+
+          <div class="w-full input-box-enriched-text">
+            <label>Solución de la Tarea</label>
+            <ckeditor
+              formControlName="solution"
+              [editor]="Editor"
+              [config]="editorConfig"
+              data="<p>Describa la solución</p>"
+            ></ckeditor>
+            @if (specificForm.get('solution')?.invalid) {
+            <mat-error>Requerido</mat-error>
+            }
+          </div>
+
+          <div class="w-full input-box-enriched-text">
+            <label>Rúbrica de Evaluación</label>
+            <ckeditor
+              formControlName="assessmentRubric"
+              [editor]="Editor"
+              [config]="editorConfig"
+              data="<p>Describa la rúbrica</p>"
+            ></ckeditor>
+            @if (specificForm.get('assessmentRubric')?.invalid) {
+            <mat-error>Requerido</mat-error>
+            }
+          </div>
+
+          <div class="flex flex-wrap justify-between">
+            <button mat-raised-button color="primary" matStepperPrevious>
+              Anterior
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              (click)="isNewActivity ? onSubmit() : onUpdate()"
+              [disabled]="specificForm.invalid"
+            >
+              {{ isNewActivity ? "Guardar" : "Actualizar" }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

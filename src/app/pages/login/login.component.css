@@ -1,0 +1,98 @@
+/* Contenedor principal */
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--dark-blue);
+}
+
+/* Caja de login */
+.login-container {
+  background-color: var(--light-grey);
+  color: var(--light-blue);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  border: 2px solid var(--white); /* Borde alrededor del contenedor */
+}
+
+/* Título */
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--dark-blue);
+}
+
+/* Subtítulo */
+h3 {
+  font-size: 1.25rem;
+  font-weight: normal;
+  color: var(--green);
+}
+
+/* Contenedor del logo */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  user-select: none; /* Evita seleccionar el contenedor */
+}
+
+.logo {
+  width: 100px; /* Ajusta el tamaño del logo según sea necesario */
+  height: 100px; /* Mismo valor para hacer la imagen circular */
+  border-radius: 50%; /* Hace que la imagen sea circular */
+  object-fit: cover; /* Asegura que la imagen se ajuste correctamente */
+  pointer-events: none; /* Evita que se pueda hacer clic o seleccionar */
+  user-drag: none; /* Para navegadores que soportan esta propiedad */
+  -webkit-user-drag: none; /* Para Safari */
+}
+
+/* Botón de inicio de sesión */
+.login-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--green);
+  color: var(--white);
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: var(--light-blue);
+}
+
+/* Botón de Google */
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--red);
+  color: var(--white);
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.google-button:hover {
+  background-color: var(--light-blue);
+}
+
+/* Contenedor de registro */
+.register-container {
+  margin-top: 1rem;
+}
+
+/* Enlace de registro */
+.register-container a {
+  color: var(--light-blue);
+}
+
+a {
+  cursor: pointer;
+}

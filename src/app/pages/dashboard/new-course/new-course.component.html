@@ -1,0 +1,100 @@
+<div class="m-8">
+  <div class="title-case-new-course pb-8">
+    @if (isNewCourse) {
+    <h2 class="text-center text-[--dark-blue] font-extrabold text-4xl">
+      Nuevo Curso
+    </h2>
+    } @else {
+    <h2 class="text-center text-[--dark-blue] font-extrabold text-4xl">
+      Editar Curso
+    </h2>
+    }
+  </div>
+
+  <form [formGroup]="courseForm">
+    <ng-template matStepLabel>Datos del Curso</ng-template>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Faculty -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Facultad</mat-label>
+        <!-- mat-option selected -->
+        <mat-select formControlName="faculty">
+          <mat-option value="FAI">
+            Facultad de Arquitectura e Ingeniería
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- department -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Departamento</mat-label>
+        <mat-select formControlName="department">
+          <mat-option value="DCC">Ciencias de la Computación</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- degree -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Carrera</mat-label>
+        <mat-select formControlName="degree">
+          <mat-option value="Computación">Computación</mat-option>
+          <mat-option value="Tecnologías de la Información">
+            Tecnologías de la Información
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- subject -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Asignatura</mat-label>
+        <input matInput formControlName="subject" />
+      </mat-form-field>
+
+      <!-- subject code -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Código de la Asignatura</mat-label>
+        <input matInput formControlName="subjectCode" />
+      </mat-form-field>
+
+      <!-- modality -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Modalidad</mat-label>
+        <mat-select formControlName="modality">
+          <mat-option value="MP">Presencial</mat-option>
+          <mat-option value="MAD">Abierta y Distancia</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- academicPeriod -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Periodo Académico</mat-label>
+        <mat-select formControlName="academicPeriod">
+          <mat-option value="Oct24-Feb25">Oct24-Feb25</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- level -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Nivel</mat-label>
+        <mat-select formControlName="academicLevel">
+          @for (i of numbers; track $index){
+          <mat-option value="{{ i }}">{{ i }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- save or update botton if isnewcourse true save or is false update button with repective funtion save or update -->
+    <div class="flex justify-end">
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!courseForm.valid"
+        (click)="isNewCourse ? saveCourse() : updateCourse()"
+      >
+        {{ isNewCourse ? "Guardar" : "Actualizar" }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,55 @@
+<div class="assessment-container">
+  <div
+    class="assessment-header flex flex-row flex-wrap items-center content-center justify-between pb-4"
+  >
+    <h2 class="font-bold text-lg">
+      Calificación General: {{ assessmentComponents.globalGrade }}
+    </h2>
+    <button
+      mat-mini-fab
+      matTooltip="Copiar texto"
+      aria-label="Copiar texto"
+      class="btn-primary"
+      (click)="copyToClipboard()"
+    >
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
+
+  <div *ngFor="let component of getComponentGrades()" class="component-grade">
+    <h3>{{ component.title }}</h3>
+    <p>{{ component.content }}</p>
+    <p>
+      <strong>Calificación:</strong> {{ component.grade }} /
+      {{ component.maxGrade }}
+    </p>
+  </div>
+
+  <div class="">
+    <div class="flex flex-row flex-wrap justify-around">
+      <!-- set an evaluation with ixons like and dislike buttons hands to register assess -->
+      <button
+        mat-mini-fab
+        class="mt-4"
+        (click)="sendFeedback('good')"
+        [ngClass]="{
+          'btn-primary': assessmentComponents.generationRating === 'good',
+          'btn-secondary': assessmentComponents.generationRating === 'bad'
+        }"
+      >
+        <mat-icon>thumb_up</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        class="mt-4"
+        (click)="sendFeedback('bad')"
+        [ngClass]="{
+          'btn-primary': assessmentComponents.generationRating === 'bad',
+          'btn-secondary': assessmentComponents.generationRating === 'good'
+        }"
+      >
+        <mat-icon>thumb_down</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

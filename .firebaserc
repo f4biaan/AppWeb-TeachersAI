@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "actividades-ia-docentes",
+    "staging": "actividades-ia-docentes"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

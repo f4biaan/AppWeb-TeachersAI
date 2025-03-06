@@ -1,0 +1,25 @@
+<div class="stepper-container">
+  <!-- Línea que conecta los círculos -->
+  <div class="connector-line"></div>
+
+  <!-- Steps -->
+  @for (step of steps; track $index; let i =$index ) {
+  <div class="step">
+    <div
+      class="circle"
+      [ngClass]="{
+        done: step.status === 'done',
+        todo: step.status === 'todo',
+        actual: step.status === 'actual'
+      }"
+    >
+      @if (step.status === 'done') {
+      <span>✔</span>
+      } @else if(step.status === 'todo' || step.status === 'actual') {
+      <span class="dot" [ngClass]="{ pulse: step.status === 'actual' }"></span>
+      }
+    </div>
+    <p class="title">{{ step.title }}</p>
+  </div>
+  }
+</div>

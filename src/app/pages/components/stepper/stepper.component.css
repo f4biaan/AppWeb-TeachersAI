@@ -1,0 +1,77 @@
+.stepper-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative; /* Para colocar la línea conectando los círculos */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+}
+.step {
+  text-align: center;
+  position: relative;
+  z-index: 1; /* Asegura que los círculos queden por encima de la línea */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle {
+  width: 20px; /* Ajusta el tamaño del círculo a 20px */
+  height: 20px; /* Ajusta el tamaño del círculo a 20px */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid gray;
+  margin-bottom: 10px;
+}
+.circle.actual {
+  background-color: white; /* Color del círculo actual */
+}
+.circle.todo {
+  background-color: lightgray;
+}
+
+.circle.done {
+  background-color: green;
+  color: white;
+}
+
+.title {
+  font-size: 14px;
+}
+
+.dot {
+  width: 4px; /* Ajusta el tamaño del punto a 5px */
+  height: 4px; /* Ajusta el tamaño del punto a 5px */
+  background-color: gray;
+  border-radius: 50%;
+}
+
+.pulse {
+  position: relative;
+  background-color: blue; /* Color del punto actual */
+  box-shadow: 0 0 0 rgba(0, 0, 255, 0.7); /* Sombra inicial */
+  animation: pulseAnimation 1.5s infinite;
+}
+
+@keyframes pulseAnimation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 255, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 3px rgba(0, 0, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 255, 0);
+  }
+}
+
+.connector-line {
+  position: absolute;
+  top: 9px; /* Centrada verticalmente en relación a los círculos */
+  left: 3rem; /* Deja un pequeño margen al inicio para que no toque el borde */
+  right: 3rem; /* Deja un pequeño margen al final */
+  height: 2px;
+  background-color: lightgray;
+  z-index: 0; /* Coloca la línea detrás de los pasos */
+}

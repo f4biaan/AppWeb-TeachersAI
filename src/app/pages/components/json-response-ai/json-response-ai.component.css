@@ -1,0 +1,40 @@
+.assessment-container {
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.component-grade {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.component-grade h3 {
+  font-size: 1.2em;
+  color: var(--dark-blue);
+}
+
+.component-grade p {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+}
+
+.component-grade strong {
+  color: #000;
+}
+
+
+.btn-primary {
+  background-color: var(--light-blue); /* o el color que desees */
+  color: white;
+}
+
+.btn-secondary {
+  background-color: var(--light-grey); /* o el color que desees */
+  color: white;
+}

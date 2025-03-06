@@ -1,0 +1,105 @@
+<div id="sidebar" class="h-full flex flex-col bg-gray-800 text-white">
+  @if (!collapsed) {
+  <div
+    class="flex flex-col flex-wrap p-4 pt-16 justify-center content-center items-center"
+  >
+    <p class="text-center">{{ user?.displayName }}</p>
+  </div>
+
+  <ul class="p-4">
+    <li
+      class="p-4 flex items-center hover:text-[--green]"
+      [routerLinkActive]="['text-[--light-blue]', 'font-bold']"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon class="mr-2">dashboard</mat-icon>
+      <a routerLink="activities" routerLinkActive="active">Dashboard</a>
+    </li>
+    <li
+      class="p-4 flex items-center hover:text-[--green]"
+      [routerLinkActive]="['text-[--light-blue]', 'font-bold']"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon class="mr-2">library_books</mat-icon>
+      <a routerLink="courses" routerLinkActive="active">Mis cursos</a>
+    </li>
+
+    <mat-divider></mat-divider>
+
+    <li class="p-4 flex items-center hover:text-[--green]">
+      <mat-icon class="mr-2">add_circle</mat-icon>
+      <a (click)="createNewCourse()">Crear curso</a>
+    </li>
+    <li class="p-4 flex items-center hover:text-[--green]">
+      <mat-icon class="mr-2">task</mat-icon>
+      <a (click)="createNewActivity()">Crear actividad</a>
+    </li>
+
+    <mat-divider></mat-divider>
+
+    <li class="p-4 flex items-center hover:text-[--green]">
+      <mat-icon class="mr-2">account_circle</mat-icon> <span>Profile</span>
+    </li>
+    <li class="p-4 flex items-center hover:text-[--green]">
+      <mat-icon class="mr-2">settings</mat-icon> <span>Settings</span>
+    </li>
+  </ul>
+
+  <div class="btns flex flex-wrap justify-end p-4">
+    <button mat-fab extended class="custom-warn-button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar Sesión
+    </button>
+  </div>
+
+  } @else {
+
+  <ul class="flex flex-col flex-wrap p-4 pt-16 justify-center">
+    <li class="justify-center text-center">
+      <mat-icon class="">account_circle</mat-icon>
+    </li>
+    <li class="py-4 hover:text-[--green] text-center">
+      <a
+        [routerLink]="['/dashboard/activities']"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>dashboard</mat-icon>
+      </a>
+    </li>
+    <li class="py-4 hover:text-[--green] text-center">
+      <a
+        [routerLink]="['/dashboard/my-courses']"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>library_books</mat-icon>
+      </a>
+    </li>
+    <mat-divider></mat-divider>
+    <li class="py-4 hover:text-[--green] text-center">
+      <a (click)="createNewCourse()">
+        <mat-icon>add_circle</mat-icon>
+      </a>
+    </li>
+    <li class="py-4 hover:text-[--green] text-center">
+      <a (click)="createNewActivity()">
+        <mat-icon>task</mat-icon>
+      </a>
+    </li>
+    <mat-divider></mat-divider>
+    <li class="py-4 hover:text-[--green] text-center">
+      <mat-icon>account_circle</mat-icon>
+    </li>
+    <li class="py-4 hover:text-[--green] text-center">
+      <mat-icon>settings</mat-icon>
+    </li>
+  </ul>
+
+  <div class=""></div>
+
+  <div class="btns flex flex-wrap justify-center py-4">
+    <button mat-mini-fab class="custom-warn-button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+  }
+</div>

@@ -1,0 +1,130 @@
+<!-- <pre>{{ currentRow | json }}</pre> -->
+<!-- <div *ngIf="currentRow">
+  <div class="prompt-response-container">
+    <markdown class="prompt">{{ currentRow.Prompt }}</markdown>
+    <div class="response-container">
+      <markdown class="response">{{ currentRow.messageReq }}</markdown>
+      <div class="grade">Calificación: {{ currentRow!.Grade }}</div>
+
+      <div class="evaluation-form">
+        <div class="form-left">
+          <div *ngFor="let param of parameters; let i = index">
+            <label>{{ param.label }}</label>
+            <div class="radio-group">
+              <label *ngFor="let option of [1, 2, 3, 4, 5]">
+                <input
+                  type="radio"
+                  [name]="'param' + i"
+                  [value]="option"
+                  [(ngModel)]="param.value"
+                  (ngModelChange)="onValueChange()"
+                />
+                {{ option }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-right">
+          <label>Observaciones</label>
+          <textarea
+            [(ngModel)]="observaciones"
+            (ngModelChange)="onValueChange()"
+          ></textarea>
+
+          <label>ResponseRelationGrade (%)</label>
+          <input
+            type="number"
+            min="0"
+            max="100"
+            [(ngModel)]="responseRelationPercentage"
+            (ngModelChange)="onValueChange()"
+          />
+        </div>
+      </div>
+
+      <div class="navigation">
+        <button (click)="goToPrevious()">Anterior</button>
+        <div class="current-index">
+          <input
+            type="number"
+            [(ngModel)]="currentIndex"
+            (change)="goToIndex()"
+          />
+          <span>Elemento {{ currentIndex + 1 }} de {{ rows.length }}</span>
+        </div>
+        <button (click)="goToNext()">Siguiente</button>
+      </div>
+    </div>
+  </div>
+</div>
+ -->
+
+ <!-- <pre>{{ currentRow | json }}</pre> -->
+<div *ngIf="currentRow">
+  <div class="prompt-response-container">
+    <ng-container *ngIf="currentRow.Prompt as prompt; else emptyPrompt">
+      <markdown class="prompt">{{ prompt }}</markdown>
+    </ng-container>
+    <ng-container *ngIf="currentRow.messageReq as messageReq; else emptyMessage">
+      <markdown class="response">{{ messageReq }}</markdown>
+    </ng-container>
+
+    <div class="response-container">
+      <div class="grade">Calificación: {{ currentRow!.Grade }}</div>
+
+      <div class="evaluation-form">
+        <div class="form-left">
+          <div *ngFor="let param of parameters; let i = index">
+            <label>{{ param.label }}</label>
+            <div class="radio-group">
+              <label *ngFor="let option of [1, 2, 3, 4, 5]">
+                <input
+                  type="radio"
+                  [name]="'param' + i"
+                  [value]="option"
+                  [(ngModel)]="param.value"
+                  (ngModelChange)="onValueChange()"
+                />
+                {{ option }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-right">
+          <label>Observaciones</label>
+          <textarea
+            [(ngModel)]="observaciones"
+            (ngModelChange)="onValueChange()"
+          ></textarea>
+
+          <label>ResponseRelationGrade (%)</label>
+          <input
+            type="number"
+            min="0"
+            max="100"
+            [(ngModel)]="responseRelationPercentage"
+            (ngModelChange)="onValueChange()"
+          />
+        </div>
+      </div>
+
+      <div class="navigation">
+        <button (click)="goToPrevious()">Anterior</button>
+        <div class="current-index">
+          <input
+            type="number"
+            [(ngModel)]="currentIndex"
+            (change)="goToIndex()"
+          />
+          <span>Elemento {{ currentIndex + 1 }} de {{ rows.length }}</span>
+        </div>
+        <button (click)="goToNext()">Siguiente</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyPrompt><div>No prompt available</div></ng-template>
+<ng-template #emptyMessage><div>No message available</div></ng-template>

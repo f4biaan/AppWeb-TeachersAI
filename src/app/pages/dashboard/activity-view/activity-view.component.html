@@ -1,0 +1,312 @@
+<div class="m-8">
+  <div class="pb-8">
+    <h2 class="text-center text-[--dark-blue] font-extrabold text-4xl">
+      Actividad: {{ activity()?.name }}
+    </h2>
+    <h4 class="text-center text-lg text-[--dark-blue]">
+      {{ course()?.subject }}
+    </h4>
+    <p class="text-center">Creado: {{ activity()?.createdAt | date }}</p>
+  </div>
+
+  <div class="botones flex justify-center space-x-4">
+    <button
+      mat-fab
+      extended
+      class="btn btn-primary"
+      (click)="loadStudentSubmittion()"
+    >
+      <mat-icon>cloud_upload</mat-icon>
+      Cargar Entregas
+    </button>
+
+    <!-- Send to ai assessment -->
+    <button
+      mat-fab
+      extended
+      class="btn btn-primary"
+      (click)="sendAllToAiAssessment()"
+      [disabled]="submissionsData()?.length == 0"
+      [ngClass]="{
+        'btn-disabled cursor-not-allowed': submissionsData()?.length == 0
+      }"
+    >
+      <mat-icon>send</mat-icon>
+      Enviar a Evaluación AI
+    </button>
+
+    <!-- vista de resultados -->
+    <button
+      mat-fab
+      extended
+      class="btn btn-primary"
+      (click)="changeView(isActivityStudentsHidden ? 'activity' : 'student')"
+      [disabled]="submissionsData()?.length == 0"
+      [ngClass]="{
+        'btn-disabled cursor-not-allowed': submissionsData()?.length == 0
+      }"
+    >
+      <mat-icon>visibility</mat-icon>
+      {{ isActivityStudentsHidden ? "Ver Entregas" : "Ver Resultados" }}
+    </button>
+
+    <div class="px-4"></div>
+
+    <button
+      mat-fab
+      extended
+      class="btn btn-primary"
+      (click)="exportGradesExcel()"
+    >
+      <!-- excel icon -->
+      <mat-icon>table_chart</mat-icon>
+      Exportar notas
+    </button>
+
+    <button mat-fab extended class="btn btn-primary" (click)="exportInforme()">
+      <!-- pdf icon -->
+      <mat-icon>picture_as_pdf</mat-icon>
+      Exportar Informe
+    </button>
+  </div>
+
+  <!-- Table of all students -->
+  <div id="activity" class="pt-8" [class.hidden]="isActivityStudentsHidden">
+    <div class="flex flex-wrap w-full">
+      <mat-form-field class="w-full">
+        <mat-label>Buscar Estudiantes</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Ej. Juan Perez"
+          #input
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          *ngIf="input.value"
+          (click)="clearInputTable(input)"
+          aria-label="Clear"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          [disableClear]="true"
+        >
+          Nombre
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="submission">
+        <th mat-header-cell *matHeaderCellDef>Entregado</th>
+        <td mat-cell *matCellDef="let element">
+          @if (element.submission != '') {
+          <mat-icon
+            matTooltip="Entregado"
+            aria-label="Entregado"
+            style="color: var(--green)"
+          >
+            check_circle
+          </mat-icon>
+          } @else {
+          <mat-icon
+            matTooltip="Faltante"
+            aria-label="Faltante"
+            style="color: var(--red)"
+          >
+            cancel
+          </mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="statusAssessment">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <!-- load submission -->
+          @if (element.submission == '') {
+          <button
+            mat-icon-button
+            matTooltip="Cargar Entrega"
+            aria-label="Cargar Entrega"
+          >
+            <!-- (click)="loadSubmission(element)" -->
+            <mat-icon>cloud_upload</mat-icon>
+          </button>
+          }
+          <button
+            mat-icon-button
+            matTooltip="Ver Entrega"
+            aria-label="Ver Entrega"
+            (click)="viewSubmission(element)"
+            [ngClass]="{
+              'btn-disabled cursor-not-allowed': element.submission == ''
+            }"
+            [disabled]="element.submission == ''"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No se ha encontrado coincidencias con "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Seleccionar página"
+    ></mat-paginator>
+  </div>
+
+  <!-- Filter and view of each one -->
+  <div id="student" class="pt-8" [class.hidden]="isStudentViewHidden">
+    <!-- Buscador de estudiante -->
+    <div class="mb-6">
+      <mat-form-field class="w-full">
+        <mat-label>Buscar estudiante</mat-label>
+        <input
+          matInput
+          [matAutocomplete]="auto"
+          [(ngModel)]="selectedStudentName"
+          (ngModelChange)="filterStudents($event)"
+          (focus)="showAllStudents()"
+          class="input-field"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          *ngIf="selectedStudentName"
+          (click)="clearInputSearcher()"
+          aria-label="Clear"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="onStudentSelected($event)"
+        >
+          <mat-option
+            *ngFor="let student of filteredStudents"
+            [value]="student.name"
+          >
+            {{ student.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!-- Información del estudiante -->
+    @if (!!currentStudent) {
+    <div class="">
+      <h2 class="text-xl font-bold mb-2">
+        Entrega de {{ currentStudent.name }}
+      </h2>
+      <p class="text-sm mb-2">
+        <strong>Email:</strong> {{ currentStudent.email }}
+      </p>
+      <p class="text-sm mb-4">
+        <strong>Username:</strong> {{ currentStudent.username }}
+      </p>
+
+      <!-- Submission y AI assessment en fila -->
+      <div class="w-full flex flex-row space-x-8 mb-6">
+        <!-- Submission -->
+        <div class="w-1/2">
+          <h3 class="text-lg font-semibold mb-2">Entrega</h3>
+
+          <div
+            class="p-[20px] bg-[--white] rounded-lg shadow-[0 2px 4px rgba(0, 0, 0, 0.1)]"
+          >
+            <pre
+              [innerHTML]="
+                currentStudent.submission || ''
+                  | highlight : currentStudent.fileType
+              "
+              class="text-sm whitespace-pre-wrap"
+            ></pre>
+          </div>
+        </div>
+
+        <!-- AI Assessment -->
+        <div class="w-1/2">
+          <h3 class="text-lg font-semibold mb-2">Evaluación AI</h3>
+          <div
+            *ngIf="currentStudent?.aiAssessment; else noAssessment"
+            class="assessment-container"
+          >
+            <!-- Respuesta -->
+            <div class="response-box">
+              @if (currentStudent.aiAssessment || currentStudent.reAssessment) {
+
+              <div class="">
+                <app-json-response-ai
+                  [assessmentComponents]="
+                    currentStudent.reAssessment ?? currentStudent.aiAssessment!
+                  "
+                  [studentId]="currentStudent.id"
+                  [activityId]="activityId()"
+                  (updateFeedback)="
+                    updateFeedBackResponse({
+                      feedback:
+                        $event.feedback === 'good' || $event.feedback === 'bad'
+                          ? $event.feedback
+                          : 'bad',
+                      generation: $event.generation
+                    })
+                  "
+                ></app-json-response-ai>
+              </div>
+
+              <div class="botones w-full justify-around">
+                @if (!currentStudent.reAssessment) {
+                <button
+                  mat-raised-button
+                  class="btn-primary mt-4"
+                  (click)="reAssessmentStudent(currentStudent.id!)"
+                  [ngClass]="{
+                    'btn-disabled cursor-not-allowed':
+                      currentStudent.reAssessment
+                  }"
+                  [disabled]="currentStudent.reAssessment"
+                >
+                  Volver a generar respuesta
+                </button>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          <ng-template #noAssessment>
+            <button mat-raised-button class="btn-primary mt-4">
+              Enviar a Evaluación AI
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <!-- busque primero un estudiante -->
+    <p class="text-center">Busque un estudiante para ver su entrega</p>
+
+    }
+  </div>
+
+  <!-- <code [innerHTML]="(currentStudent?.submission ?? ''  | highlight: currentStudent?.fileType) | async"></code>  -->
+</div>

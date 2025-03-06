@@ -1,0 +1,141 @@
+<div class="m-8">
+  <div class="pb-8">
+    <h2 class="text-start text-[--dark-blue] font-extrabold text-4xl">
+      {{ getGreeting() }} {{ user?.givenName | titlecase }}!
+    </h2>
+  </div>
+
+  <div class="w-full flex flex-row gap-8">
+    <!-- Left section -->
+    <div class="w-1/2 h-auto flex flex-col gap-8">
+      <!-- Last activity -->
+      <div class="bg-[--white] rounded-xl p-8" id="last-activity" *ngIf="lastActivity">
+        <h4 class="text-[--dark-blue] font-semibold text-xl">
+          Ultima actividad modificada
+        </h4>
+
+        <div class="my-4">
+          <app-stepper [steps]="lastActivitySteps" />
+        </div>
+
+        <div class="grid">
+          <p>
+            <strong class="text-[--dark-blue]">Actividad: </strong>
+            {{ lastActivity.name }}
+          </p>
+          <p>
+            <strong class="text-[--dark-blue]">Asignatura: </strong>
+            {{ courseOfLastActivity.subject }}
+          </p>
+          <p>
+            <strong class="text-[--dark-blue]">Componente de aprendizaje: </strong>
+            {{ caseOfLearningComponent(lastActivity.learningComponent) }}
+          </p>
+          <p>
+            <strong class="text-[--dark-blue]">Última modificación: </strong>
+            {{ lastActivity.lastUpdate | date }}
+          </p>
+        </div>
+
+        <div class="flex justify-end">
+          <!-- buttton to continue with material icon and button flat button -->
+          <button
+            mat-fab
+            extended
+            style="background-color: var(--green); color: white"
+            (click)="enterActivity(lastActivity.id)"
+          >
+            <mat-icon>arrow_forward</mat-icon>
+            Continuar
+          </button>
+        </div>
+      </div>
+
+      <!-- info app -->
+      <div class="bg-[--white] rounded-xl p-8">
+        <section class="app-info">
+          <p>
+            <strong class="text-[--dark-blue]">TEACHMATE AI</strong> está
+            diseñada para aprovechar el poder de la Inteligencia Artificial
+            Generativa, utilizando modelos avanzados como
+            <i class="underline text-[--dark-blue]">GPT-4o</i> y
+            <i class="underline text-[--dark-blue]">GPT-4o-mini</i> para la
+            evaluación de programas de baja y mediana complejidad.
+          </p>
+          <br />
+          <p>
+            <strong class="text-[--dark-blue]">El Propósito</strong> de la
+            aplicación tiene como objetivo ser una herramienta de apoyo para los
+            docentres, mejorando la eficiencia y productividad mediante la
+            generación automatizada de contenido y la interacción con la IA.
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <!-- Right section -->
+    <div class="w-1/2 h-auto flex flex-col gap-8">
+      <!-- Quick actions -->
+      <div class="bg-[--white] rounded-xl p-8" id="options">
+        <h4 class="text-[--dark-blue] font-semibold text-xl pb-8">
+          Opciones disponibles
+        </h4>
+
+        <div class="grid gap-4">
+          <button
+            mat-fab
+            extended
+            style="background-color: var(--blue); color: dark-blue"
+            (click)="createNewActivity()"
+          >
+            <mat-icon>add</mat-icon>
+            Crear nueva actividad
+          </button>
+
+          <button
+            mat-fab
+            extended
+            style="background-color: var(--blue); color: dark-blue"
+            (click)="createNewCourse()"
+          >
+            <mat-icon>add</mat-icon>
+            Crear nuevo curso
+          </button>
+        </div>
+      </div>
+
+      <!-- Models OpenAI -->
+      <div class="w-auto bg-[--white] rounded-xl p-8">
+        <swiper-container
+          class="w-fit mx-8 over"
+          loop="true"
+          slides-per-view="auto"
+          speed="800"
+          space-between="30"
+          centered-slides="true"
+          [grabCursor]="true"
+          coverflow-effect-rotate="50"
+          effect="cards"
+          autoplay-delay="3500"
+          autoplay-disable-on-interaction="false"
+          navigation="false"
+          coverflow-effect-stretch="0"
+          coverflow-effect-modifier="1"
+          coverflow-effect-slide-shadows="false"
+        >
+          <swiper-slide class="!w-fit">
+            <img src="angular+spring.png" alt="" class="rounded-sm" />
+          </swiper-slide>
+
+          <swiper-slide class="!w-fit">
+            <img src="GPT 4o.png" alt="" class="rounded-sm" />
+          </swiper-slide>
+
+         <!--  <swiper-slide class="!w-fit">
+            <img src="GPT-4o mini.png" alt="" class="rounded-sm" />
+          </swiper-slide> -->
+        </swiper-container>
+      </div>
+    </div>
+  </div>
+</div>

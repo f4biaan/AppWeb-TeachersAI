@@ -1,0 +1,118 @@
+.prompt-response-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.prompt,
+.response {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  overflow: auto;
+  /* max-height: 400px; Limitar la altura si es necesario */
+}
+
+.response-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuye el espacio para empujar la calificación hacia abajo */
+}
+
+.grade {
+  margin-top: auto; /* Empuja el contenido hacia el final */
+  font-weight: bold;
+  color: #007bff;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.evaluation-form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.form-left,
+.form-right {
+  width: 48%; /* Ajusta el ancho de las columnas */
+}
+
+.form-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Alinea tanto los labels como los radio inputs a la derecha */
+}
+
+.form-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.evaluation-form label {
+  font-weight: bold;
+}
+
+.evaluation-form.form-left label {
+  /* margin-bottom: 5px; */
+  text-align: right; /* Asegura que el texto del label también esté alineado a la derecha */
+}
+
+.evaluation-form .radio-group {
+  display: flex;
+  justify-content: flex-end; /* Alinea los radio inputs a la derecha */
+  gap: 10px; /* Espacio entre los radio buttons */
+  margin-bottom: 15px;
+}
+
+.evaluation-form textarea,
+.evaluation-form input[type="number"] {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 80%; /* Asegura que los campos ocupen todo el ancho de la columna */
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  gap: 10px; /* Espacio entre los elementos */
+}
+
+.navigation button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navigation button:hover {
+  background-color: #0056b3;
+}
+
+.current-index {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.current-index input[type="number"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 60px;
+  text-align: center;
+}

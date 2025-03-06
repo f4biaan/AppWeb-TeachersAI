@@ -1,0 +1,19 @@
+a {
+  cursor: pointer;
+}
+
+#sidebar {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: auto 1fr auto;
+}
+
+
+.custom-warn-button {
+  background-color: #FF5252; /* Color de fondo personalizado */
+  color: white; /* Color del texto */
+}
+
+.custom-warn-button:hover {
+  background-color: var(--red) /* Color al hacer hover */
+}
